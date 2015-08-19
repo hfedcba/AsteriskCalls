@@ -1,0 +1,143 @@
+@charset "UTF-8";
+
+#anrufuebersicht  {
+	margin-top: 80px;
+}
+
+/* {{{ Anrufübersicht */
+#uebersicht .panel .panel-heading {
+	height: 43px;
+}
+
+#uebersicht .panel .panel-list {
+	list-style: outside none none;
+	margin: 0;
+	padding: 0;
+}
+
+#uebersicht .panel-list li {
+	font-size: 12px;
+	padding: 10px 15px;
+	min-height: 35px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#uebersicht .panel-list li:hover {
+    background-color: #F8F8F8;
+}
+
+#uebersicht .first-col {
+	float: left;
+	width: 70px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+
+#uebersicht .second-col {
+	float: left;
+	width: 50px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+
+#uebersicht .third-col {
+	float: left;
+	width: 170px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+
+#uebersicht .fourth-col {
+	float: left;
+	width: 160px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+
+#uebersicht .fifth-col {
+	float: left;
+	width: 40px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+	text-align: right;
+}
+/* }}} */
+
+/* {{{ Telefonbuch */
+#suche {
+	height: 23px;
+}
+
+#telefonbucheintragHinzufuegenButton {
+	float: right;
+	height: 23px;
+	width: 23px;
+	margin-left: 10px;
+}
+
+#telefonbuch .panel .panel-heading {
+	height: 43px;
+}
+
+#telefonbuch .panel .panel-list {
+	list-style: outside none none;
+	margin: 0;
+	padding: 0;
+}
+
+#telefonbuch .panel-list li {
+	font-size: 12px;
+	padding: 10px 15px;
+	min-height: 35px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#telefonbuch .panel-list li:hover {
+    background-color: #F8F8F8;
+}
+
+#telefonbuch .glyphicon-user,
+#telefonbuch .glyphicon-earphone {
+	text-size: 14px;
+	padding-right: 5px;
+}
+
+.btn-telefonbucheintrag-bearbeiten,
+.btn-telefonbucheintrag-loeschen {
+	border: none;
+	background-color: transparent;
+	color: gray;
+}
+
+.btn-telefonbucheintrag-bearbeiten:hover,
+.btn-telefonbucheintrag-loeschen:hover {
+	color: black;
+}
+
+#telefonbuch .btn.btn-small {
+	padding: 2px 10px;
+	margin-left: 5px;
+	font-size: 12px;
+}
+
+#telefonbuch .first-col {
+	float: left;
+	width: 250px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+
+#telefonbuch .second-col {
+	float: left;
+	width: 150px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+/* }}} */

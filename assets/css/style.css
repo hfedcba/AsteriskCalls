@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+/* {{{ Typographie */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Ubuntu Light'), local('Ubuntu-Light'), url(../fonts/ubuntu/Ubuntu-L.woff2) format('woff2'), url(../fonts/ubuntu/Ubuntu-L.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu'), url(../fonts/ubuntu/Ubuntu-R.woff2) format('woff2'), url(../fonts/ubuntu/Ubuntu-R.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Ubuntu Medium'), local('Ubuntu-Medium'), url(../fonts/ubuntu/Ubuntu-M.woff2) format('woff2'), url(../fonts/ubuntu/Ubuntu-M.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(../fonts/ubuntu/Ubuntu-B.woff2) format('woff2'), url(../fonts/ubuntu/Ubuntu-B.woff) format('woff');
+}
+/* }}} */
+
+a,
+a:active,
+a:focus,
+a:hover,
+button,
+button:active,
+button:focus {
+	outline: 0 !important;
+}

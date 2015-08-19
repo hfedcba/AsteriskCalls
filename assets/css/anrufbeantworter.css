@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+#anrufbeantworter  {
+	margin-top: 80px;
+	display: none;
+}
+
+#anrufbeantworter div.audio {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#anrufbeantworter div.audio audio {
+	width: 400px;
+}
+
+.anrufbeantworter-tab-caption {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#anrufbeantworter .tab-content {
+	border-left: 1px solid #DDD;
+	border-right: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	border-radius: 0px 0px 4px 4px;
+	padding: 15px;
+	min-height: 100px;
+}
+
+#anrufbeantworter .tab-content ul {
+	list-style: outside none none;
+	margin: 0;
+	padding: 0;
+}
+
+#anrufbeantworter .tab-content li {
+	font-size: 14px;
+	padding: 10px 15px;
+	min-height: 37px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#anrufbeantworter .tab-content li:hover {
+    background-color: #F8F8F8;
+}
+
+.keine-sprachnachricht {
+	text-align: center;
+}
+
+#anrufbeantworter .ungehoert {
+	font-weight: bold;
+}
+
+#anrufbeantworter .first-col {
+	float: left;
+	width: 90px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+
+#anrufbeantworter .second-col {
+	float: left;
+	width: 60px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+
+#anrufbeantworter .third-col {
+	float: left;
+	width: 170px;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow: hidden;
+}
+
+#anrufbeantworter .forth-col {
+	float: left;
+	width: 300px;
+	white-space: nowrap;
+	word-break: keep-all;
+}
+
+.btn-sprachnachricht-loeschen,
+.btn-sprachnachricht-gehoert,
+.btn-sprachnachricht-ungehoert {
+	border: none;
+	background-color: transparent;
+	color: gray;
+}
+
+.btn-sprachnachricht-loeschen:hover,
+.btn-sprachnachricht-gehoert:hover,
+.btn-sprachnachricht-ungehoert:hover {
+	color: black;
+}
+
+.sprachnachricht-element,
+.sprachnachricht-element div {
+	cursor: pointer;
+}

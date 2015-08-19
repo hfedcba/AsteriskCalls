@@ -1,0 +1,21 @@
+#!/usr/bin/php -q
+<?php
+require 'phpagi-2.20/phpagi.php';
+$agi = new AGI();
+
+$fromNumber = preg_replace("#[^0-9]#","",$agi->request["agi_callerid"]);
+$fromName = $agi->request["age_calleridname"];
+$toNumber = preg_replace("#[^0-9]#","",$agi->request["agi_dnid"]);
+$uniqueid = $agi->request["agi_uniqueid"];
+$duration = (integer)$agi->get_variable("CDR(billsec)")['data'];
+
+$db = 'asteriskcdrdb';
+$dbuser = 'asterisk';
+$dbpass = 'Ajslk319Yjalk1298Auh';
+$dbhost = 'localhost';
+
+$mysql = new mysqli($dbhost, $dbuser, $dbpass, $db);
+$mysql->set_charset('utf8');
+$mysql->query('INSERT INTO AsteriskCalls VALUES (NULL,NOW(),"'.$fromNumber.'","'.$fromName.'","'.$toNumber.'","","'.uniqueId.'",'.$duration.')');
+$mysql->close();
+?>
