@@ -2,6 +2,7 @@ var anrufbeantworterNamen  = [];
 var anrufbeantworter = {};
 
 function sprachnachrichtenLaden(forceLoad) {
+	if(anrufbeantworterNamen.length == 0) return;
 	$.post('ajax.php',
 		{
 			method: 'newVoicemailCounts',

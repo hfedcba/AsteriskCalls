@@ -49,7 +49,18 @@ else if($_request['method'] == 'addName')
 }
 else if($_request['method'] == 'getCalls')
 {
-	$sql = 'SELECT Id, Date, Duration, FromNumber, ToNumber, FromName, ToName FROM AsteriskCalls WHERE LENGTH(FromNumber)>'.$_config->MaxInternalNumberLength.' AND FromNumber!="" ORDER BY Date DESC '.' LIMIT '.$_config->CallsInOverview;
+	$sql = 'SELECT Id, Date, Duration, FromNumber, ToNumber, FromName, ToName FROM AsteriskCalls WHERE LENGTH(FromNumber)>'.$_config->MaxInternalNumberLength.' AND FromNumber!=""';
+	if(count($_config->ChannelsInOverview) > 0)
+	{
+		$sql .= ' AND (';
+		for($i = 0; $i < count($_config->ChannelsInOverview); $i++)
+		{
+			$sql .= 'Channel LIKE "'.$_config->ChannelsInOverview[$i].'"';
+			if($i < count($_config->ChannelsInOverview) - 1) $sql .= ' OR ';
+		}
+		$sql .= ')';
+	}
+	$sql .= ' ORDER BY Date DESC '.' LIMIT '.$_config->CallsInOverview;
 	$calls = $_mysql->query($sql);
 	
 	// Search for changes in phonebook and format date

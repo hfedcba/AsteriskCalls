@@ -17,6 +17,8 @@ namespace AsteriskCalls
 		var $VoicemailPath = '/var/spool/asterisk/voicemail/';
 		var $VoicemailContext = 'Laufer';
 		var $MaxInternalNumberLength = 4;
+		// Nur diese Kanäle in der Übersicht anzeigen
+		var $ChannelsInOverview = array('SIP/isdngateway%', 'SIP/gsmgateway%');
 		var $CallsInOverview = 200;
 	}
 }

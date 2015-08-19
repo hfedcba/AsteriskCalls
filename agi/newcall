@@ -8,6 +8,7 @@ $fromName = $agi->request["age_calleridname"];
 $toNumber = preg_replace("#[^0-9]#","",$agi->request["agi_dnid"]);
 $uniqueid = $agi->request["agi_uniqueid"];
 $duration = (integer)$agi->get_variable("CDR(billsec)")['data'];
+$channel = $agi->request["agi_channel"];
 
 $db = 'asteriskcdrdb';
 $dbuser = 'asterisk';
@@ -16,6 +17,6 @@ $dbhost = 'localhost';
 
 $mysql = new mysqli($dbhost, $dbuser, $dbpass, $db);
 $mysql->set_charset('utf8');
-$mysql->query('INSERT INTO AsteriskCalls VALUES (NULL,NOW(),"'.$fromNumber.'","'.$fromName.'","'.$toNumber.'","","'.$uniqueId.'",'.$duration.')');
+$mysql->query('INSERT INTO AsteriskCalls VALUES (NULL,NOW(),"'.$fromNumber.'","'.$fromName.'","'.$toNumber.'","","'.$uniqueId.'",'.$duration.',"'.$channel.'")');
 $mysql->close();
 ?>
