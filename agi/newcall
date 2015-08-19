@@ -16,6 +16,6 @@ $dbhost = 'localhost';
 
 $mysql = new mysqli($dbhost, $dbuser, $dbpass, $db);
 $mysql->set_charset('utf8');
-$mysql->query('INSERT INTO AsteriskCalls VALUES (NULL,NOW(),"'.$fromNumber.'","'.$fromName.'","'.$toNumber.'","","'.uniqueId.'",'.$duration.')');
+$mysql->query('INSERT INTO AsteriskCalls VALUES (NULL,NOW(),"'.$fromNumber.'","'.$fromName.'","'.$toNumber.'","","'.$uniqueId.'",'.$duration.')');
 $mysql->close();
 ?>
