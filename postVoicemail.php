@@ -63,7 +63,7 @@ class ProcessVoicemail
 	private function getFilename() {
 		if($this->_filename != "")
 		{
-			$this->_filePrefix = mb_substr($this->Filename, 0, -4);
+			$this->_filePrefix = mb_substr($this->_filename, 0, -4);
 			if(!is_file($this->_fullPath.$this->_filePrefix.".txt")) return false;
 			return true;
 		}
@@ -87,12 +87,12 @@ class ProcessVoicemail
 		if(is_file($this->_fullPath.$this->_filePrefix.'.wav'))
 		{
 			exec('lame -V2 '.$this->_fullPath.$this->_filePrefix.'.wav '.$this->_fullPath.$this->_filePrefix.'.mp3');
-			//exec("rm {$this->FullPath}{$this->FilePrefix}.wav");
+			//exec("rm {$this->_fullPath}{$this->_filePrefix}.wav");
 		}
 	}
 
 	private function readVoicemailInfo()
-	{	
+	{
 		$voicemail = array();
 		$voicemail['Context'] = $this->_context;
 		$voicemail['Name'] = $this->_name;
@@ -154,14 +154,16 @@ class ProcessVoicemail
 		$this->_mysql->query('INSERT INTO Voicemails VALUES(NULL,"'.$voicemail['Context'].'","'.$voicemail['Name'].'","'.$voicemail['Category'].'","'.$voicemail['Path'].'","'.$voicemail['FullPath'].'","'.$voicemail['FilePrefix'].'","'.$voicemail['Caller'].'","'.$voicemail['CallerName'].'","'.$voicemail['Date'].'","'.$voicemail['Time'].'",'.$voicemail['Duration'].','.$voicemail['New'].')');
 	}
 
-	private function setRights() {
+	private function setRights()
+	{
 		exec("/bin/chgrp -R voicemail {$this->_config->VoicemailPath}");
 		exec("/bin/chown -R asterisk {$this->_config->VoicemailPath}");
 		exec("/bin/chmod -R 775 {$this->_config->VoicemailPath}");
 	}
 }
 
-if(!isset($argv[2])) {
+if(!isset($argv[2]))
+{
         echo("\nUsage:\n    postVoicemail.php {Context} {VoicemailName} -f {Optional: Filename}\n\n");
         exit();
 }

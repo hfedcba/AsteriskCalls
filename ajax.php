@@ -150,7 +150,22 @@ else if($_request['method'] == 'getVoicemails')
 else if($_request['method'] == 'deleteVoicemail')
 {
 	if(!isset($_request['id'])) die('Bitte übergeben Sie den Parameter "id".');
+	$voicemail = $_mysql->query('SELECT FullPath FROM Voicemails WHERE ID='.$_request['id']);
 	$_mysql->query('DELETE FROM Voicemails WHERE ID='.$_request['id']);
+	
+	if($voicemail && count($voicemail > 0))
+	{
+		if(unlink($voicemail[0]["FullPath"]))
+		{
+			$prefix = mb_substr($voicemail[0]["FullPath"], 0, -3);
+			@unlink($prefix."txt");
+			@unlink($prefix."wav");
+			@unlink($prefix."WAV");
+			@unlink($prefix."gsm");
+			@unlink($prefix."mp3");
+		}
+	}
+	
 	echo json_encode(true);
 }
 else if($_request['method'] == 'markUnheard')

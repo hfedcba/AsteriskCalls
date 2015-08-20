@@ -15,9 +15,10 @@ function sprachnachrichtenLaden(forceLoad) {
 					var key = keys[i];
 					anrufbeantworter[key].neueAnrufeAlt = anrufbeantworter[key].neueAnrufe;
 					anrufbeantworter[key].neueAnrufe = result[key];
+					anrufbeantworter[key].neueAnrufeBadge = result[key];
 					if(anrufbeantworter[key].neueAnrufeAlt != anrufbeantworter[key].neueAnrufe) {
 						var badge = $('#vm-badge' + i);
-						badge.text(anrufbeantworter[key].neueAnrufe);
+						badge.text(anrufbeantworter[key].neueAnrufeBadge);
 						if(anrufbeantworter[key].neueAnrufe == 0) badge.fadeOut();
 						else badge.fadeIn();
 					}
@@ -80,9 +81,8 @@ function sprachnachrichtenLaden(forceLoad) {
 														button.children('span').removeClass('glyphicon-envelope').addClass('glyphicon-file');
 														element.children('div').removeClass('ungehoert');
 														var badge = $('#vm-badge' + anrufbeantworter[aktuellerAnrufbeantworter].index);
-														var count = badge.text() - 1;
-														badge.text(count);
-														if(count <= 0) badge.fadeOut();
+														badge.text(--anrufbeantworter[aktuellerAnrufbeantworter].neueAnrufeBadge);
+														if(anrufbeantworter[aktuellerAnrufbeantworter].neueAnrufeBadge <= 0) badge.fadeOut();
 													}
 											});
 										} else {
@@ -99,9 +99,8 @@ function sprachnachrichtenLaden(forceLoad) {
 														button.children('span').removeClass('glyphicon-file').addClass('glyphicon-envelope');
 														element.children('div').addClass('ungehoert');
 														var badge = $('#vm-badge' + anrufbeantworter[aktuellerAnrufbeantworter].index);
-														var count = badge.text() - 0 + 1;
-														badge.text(count);
-														if(count > 0) badge.fadeIn();
+														badge.text(++anrufbeantworter[aktuellerAnrufbeantworter].neueAnrufeBadge);
+														if(anrufbeantworter[aktuellerAnrufbeantworter].neueAnrufeBadge > 0) badge.fadeIn();
 													}
 											});
 										}
@@ -124,9 +123,8 @@ function sprachnachrichtenLaden(forceLoad) {
 													button.attr('title', 'Als ungehört markieren');
 													button.children('span').removeClass('glyphicon-envelope').addClass('glyphicon-file');
 													var badge = $('#vm-badge' + anrufbeantworter[aktuellerAnrufbeantworter].index);
-													var count = badge.text() - 1;
-													badge.text(count);
-													if(count <= 0) badge.fadeOut();
+													badge.text(--anrufbeantworter[aktuellerAnrufbeantworter].neueAnrufeBadge);
+													if(anrufbeantworter[aktuellerAnrufbeantworter].neueAnrufeBadge <= 0) badge.fadeOut();
 												}
 										});
 									});
@@ -145,6 +143,7 @@ $(document).ready(function() {
 		anrufbeantworter[$(this).data('name')] = {
 			neueAnrufeAlt: -1,
 			neueAnrufe: -1,
+			neueAnrufeBadge: -1,
 			index: index++
 		};
 	});
