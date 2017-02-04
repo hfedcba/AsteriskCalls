@@ -9,13 +9,15 @@
 				var anrufliste = $('#anrufliste');
 				anrufliste.empty();
 				data.forEach(function(anruf) {
-					if(anruf.FromName.length > 30) anruf.FromName = anruf.FromName.substring(0, 27) + '...';
-					if(anruf.ToName.length > 30) anruf.ToName = anruf.ToName.substring(0, 27) + '...';
+					var fromName = anruf.FromName;
+					var toName = anruf.ToName;
+					if(anruf.FromName.length > 30) anruf.FromName = anruf.FromName.substring(0, 26) + '...';
+					if(anruf.ToName.length > 30) anruf.ToName = anruf.ToName.substring(0, 26) + '...';
 					anrufliste.append('<li>\
 							<div class="first-col">' + anruf.Date + '</div>\
 							<div class="second-col">' + anruf.Time + '</div>\
-							<div class="third-col">' + ((anruf.FromName == anruf.FromNumber) ? '<a href="#" data-toggle="modal" data-target="#telefonbucheintragHinzufuegen2" data-nummer="' + anruf.FromNumber + '" class="unknown-number">' + anruf.FromNumber + '</a>' : '<a href="#" title="' + anruf.FromNumber + '" data-toggle="modal" data-target="#telefonbucheintragBearbeiten2" data-name="' + anruf.FromName + '" data-nummer="' + anruf.FromNumber + '" class="known-number">' + anruf.FromName + '</a>') + '</div>\
-							<div class="fourth-col">' + ((anruf.ToName == anruf.ToNumber) ? '<a href="#" data-toggle="modal" data-target="#telefonbucheintragHinzufuegen2" data-nummer="' + anruf.ToNumber + '" class="unknown-number">' + anruf.ToNumber + '</a>' : '<a href="#" title="' + anruf.ToNumber + '" data-toggle="modal" data-target="#telefonbucheintragBearbeiten2" data-name="' + anruf.FromName + '" data-nummer="' + anruf.FromNumber + '" class="known-number">' + anruf.ToName + '</a>') + '</div>\
+							<div class="third-col">' + ((fromName == anruf.FromNumber) ? '<a href="#" data-toggle="modal" data-target="#telefonbucheintragHinzufuegen2" data-nummer="' + anruf.FromNumber + '" class="unknown-number">' + anruf.FromNumber + '</a>' : '<a href="#" title="' + anruf.FromNumber + '" data-toggle="modal" data-target="#telefonbucheintragBearbeiten2" data-name="' + fromName + '" data-nummer="' + anruf.FromNumber + '" class="known-number">' + anruf.FromName + '</a>') + '</div>\
+							<div class="fourth-col">' + ((toName == anruf.ToNumber) ? '<a href="#" data-toggle="modal" data-target="#telefonbucheintragHinzufuegen2" data-nummer="' + anruf.ToNumber + '" class="unknown-number">' + anruf.ToNumber + '</a>' : '<a href="#" title="' + anruf.ToNumber + '" data-toggle="modal" data-target="#telefonbucheintragBearbeiten2" data-name="' + toName + '" data-nummer="' + anruf.ToNumber + '" class="known-number">' + anruf.ToName + '</a>') + '</div>\
 							<div class="fifth-col">' + anruf.Duration + 's</div>\
 						</li>');
 				});
@@ -41,17 +43,21 @@
 				var namensliste = $('#namensliste');
 				namensliste.empty();
 				data.forEach(function(eintrag) {
+					expandedName = eintrag.Name;
 					if(eintrag.Name.length > 35) eintrag.Name = eintrag.Name.substring(0, 32) + '...';
-					namensliste.append('<li><div class="first-col"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>' + eintrag.Name + '</div><div class="second-col"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>' + eintrag.Number + '</div><div class="pull-right"><button class="btn-telefonbucheintrag-bearbeiten" data-toggle="modal" data-target="#telefonbucheintragBearbeiten" data-name="' + eintrag.Name + '" data-nummer="' + eintrag.Number + '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button><button class="btn-telefonbucheintrag-loeschen" data-name="' + eintrag.Name + '"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div></li>');
+					namensliste.append('<li><div class="first-col"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>' + eintrag.Name + '</div><div class="second-col"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>' + eintrag.Number + '</div><div class="pull-right"><button class="btn-telefonbucheintrag-bearbeiten" data-toggle="modal" data-target="#telefonbucheintragBearbeiten" data-name="' + expandedName + '" data-nummer="' + eintrag.Number + '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button><button class="btn-telefonbucheintrag-loeschen" data-name="' + expandedName + '" data-nummer="' + eintrag.Number + '"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></div></li>');
 				});
 				$('.btn-telefonbucheintrag-loeschen').click(function() {
 					var name = $(this).data('name');
-					if(!name || name.length == 0) return;
+					var nummer = $(this).data('nummer');
+					if(!name || name.length == 0 || !nummer || nummer.length == 0) return;
 					$.post('ajax.php',
 						{
 							method: 'deleteName',
-							name: name
+							name: name,
+							nummer: nummer
 						}, function(data, status) {
+							if(!data) return;
 							result = JSON.parse(data);
 							if(status == 'success')
 							{

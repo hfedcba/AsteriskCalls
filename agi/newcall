@@ -1,22 +1,20 @@
 #!/usr/bin/php -q
 <?php
-require 'phpagi-2.20/phpagi.php';
+require_once('config.php');
+$config = new \AsteriskCalls\Config();
+
+require_once('phpagi-2.20/phpagi.php');
 $agi = new AGI();
 
+if(strncmp($agi->request["agi_callerid"], $config->CountryCode, strlen($config->CountryCode)) === 0) $agi->request["agi_callerid"] = '0'.substr($agi->request["agi_callerid"], strlen($config->CountryCode));
 $fromNumber = preg_replace("#[^0-9]#","",$agi->request["agi_callerid"]);
-$fromName = $agi->request["age_calleridname"];
-$toNumber = preg_replace("#[^0-9]#","",$agi->request["agi_dnid"]);
-$uniqueid = $agi->request["agi_uniqueid"];
+$fromName = $agi->request["agi_calleridname"];
+$toNumber = preg_replace("#[^0-9]#","",$agi->request["agi_arg_1"]);
+$uniqueId = $agi->request["agi_uniqueid"];
 $duration = (integer)$agi->get_variable("CDR(billsec)")['data'];
 $channel = $agi->request["agi_channel"];
 
-$db = 'asteriskcdrdb';
-$dbuser = 'asterisk';
-$dbpass = 'Ajslk319Yjalk1298Auh';
-$dbhost = 'localhost';
-
-$mysql = new mysqli($dbhost, $dbuser, $dbpass, $db);
+$mysql = new mysqli($config->MySqlHost, $config->MySqlUsername, $config->MySqlPassword, $config->MySqlDatabase);
 $mysql->set_charset('utf8');
 $mysql->query('INSERT INTO AsteriskCalls VALUES (NULL,NOW(),"'.$fromNumber.'","'.$fromName.'","'.$toNumber.'","","'.$uniqueId.'",'.$duration.',"'.$channel.'")');
 $mysql->close();
-?>

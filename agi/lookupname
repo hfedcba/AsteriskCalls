@@ -1,26 +1,31 @@
 #!/usr/bin/php -q
 <?php
-require 'phpagi-2.20/phpagi.php';
+require_once('config.php');
+$config = new \AsteriskCalls\Config();
+
+require_once('phpagi-2.20/phpagi.php');
 $agi = new AGI();
 
+if(strncmp($agi->request["agi_callerid"], $config->CountryCode, strlen($config->CountryCode)) === 0) $agi->request["agi_callerid"] = '0'.substr($agi->request["agi_callerid"], strlen($config->CountryCode));
 $number = preg_replace("#[^0-9]#","",$agi->request["agi_callerid"]);
 $name = "";
 
-$db = 'asteriskcdrdb';
-$dbuser = 'asterisk';
-$dbpass = 'Ajslk319Yjalk1298Auh';
-$dbhost = 'localhost';
+if($number)
+{
+	$mysql = new mysqli($config->MySqlHost, $config->MySqlUsername, $config->MySqlPassword, $config->MySqlDatabase);
+	if(!$mysql) die("Connection to database failed.");
+	$mysql->set_charset('utf8');
 
-mysql_connect($dbhost,$dbuser,$dbpass);
-mysql_select_db("$db");
-mysql_set_charset("utf8");
+	$mysql->query('UPDATE cdr SET FromNumber="'.$number.'" WHERE uniqueid="'.$agi->request['agi_uniqueid'].'"');
 
-mysql_query("UPDATE cdr SET FromNumber='$number' WHERE uniqueid='".$agi->request["agi_uniqueid"]."'");
-
-$row = mysql_query("SELECT Name FROM phonebook WHERE Number LIKE '%$number%'");
-if (mysql_num_rows($row) == 1) {
-        $row=mysql_fetch_array($row);
-        if ($row["Name"]) $name = $row["Name"];
+	$result = $mysql->query('SELECT Name FROM phonebook WHERE Number LIKE "%'.$number.'%"');
+	if ($result->num_rows > 0) {
+        	$row = $result->fetch_array();
+	        if ($row["Name"]) $name = trim($row["Name"]);
+	}
+	$result->free();
+	$mysql->close();
 }
+
 $agi->set_variable("MySQLName", $name);
-?>
+

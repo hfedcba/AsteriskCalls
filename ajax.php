@@ -35,9 +35,10 @@ else if($_request['method'] == 'editNumber')
 else if($_request['method'] == 'deleteName')
 {
 	if(!isset($_request['name'])) die('Bitte übergeben Sie den Parameter "name".');
-	$_mysql->query('DELETE FROM phonebook WHERE Name="'.$_request['name'].'"');
-	$_mysql->query('UPDATE AsteriskCalls SET FromName="" WHERE FromName="'.$_request['name'].'"');
-	$_mysql->query('UPDATE AsteriskCalls SET ToName="" WHERE ToName="'.$_request['name'].'"');
+	if(!isset($_request['nummer'])) die('Bitte übergeben Sie den Parameter "nummer".');
+	$_mysql->query('DELETE FROM phonebook WHERE Name="'.$_request['name'].'" AND Number="'.$_request['nummer'].'"');
+	$_mysql->query('UPDATE AsteriskCalls SET FromName="" WHERE FromName="'.$_request['name'].'" AND FromNumber="'.$_request['nummer'].'"');
+	$_mysql->query('UPDATE AsteriskCalls SET ToName="" WHERE ToName="'.$_request['name'].'" AND ToNumber="'.$_request['nummer'].'"');
 	echo json_encode(true);
 }
 else if($_request['method'] == 'addName')
@@ -49,7 +50,7 @@ else if($_request['method'] == 'addName')
 }
 else if($_request['method'] == 'getCalls')
 {
-	$sql = 'SELECT Id, Date, Duration, FromNumber, ToNumber, FromName, ToName FROM AsteriskCalls WHERE LENGTH(FromNumber)>'.$_config->MaxInternalNumberLength.' AND FromNumber!=""';
+	$sql = 'SELECT Id, Date, Duration, FromNumber, ToNumber, FromName, ToName FROM AsteriskCalls WHERE LENGTH(FromNumber)>'.$_config->MaxInternalNumberLength.' AND FromNumber != ""';
 	if(count($_config->ChannelsInOverview) > 0)
 	{
 		$sql .= ' AND (';
@@ -62,18 +63,18 @@ else if($_request['method'] == 'getCalls')
 	}
 	$sql .= ' ORDER BY Date DESC '.' LIMIT '.$_config->CallsInOverview;
 	$calls = $_mysql->query($sql);
-	
+
 	// Search for changes in phonebook and format date
 	for($i = 0; $i < count($calls); $i++)
 	{
 		$date = strtotime($calls[$i]['Date']);
 		$calls[$i]['Date'] = date($_config->DateFormat, $date);
 		$calls[$i]['Time'] = date($_config->TimeFormat, $date);
-		
+
 		// Correct errors from old version
-		if($calls[$i]["FromName"] == '""') $calls[$i]["FromName"] = '';
+		if($calls[$i]["FromName"] == '""' || $calls[$i]["FromName"] == 'unknown') $calls[$i]["FromName"] = '';
 		if($calls[$i]["ToName"] == '""') $calls[$i]["ToName"] = '';
-		
+
 		if($calls[$i]["FromNumber"] == '')
 		{
 			$calls[$i]["FromName"] = "Unbekannt";
@@ -110,7 +111,7 @@ else if($_request['method'] == 'getCalls')
 			else if($calls[$i]["ToName"] == "") $calls[$i]["ToName"] = $calls[$i]["ToNumber"];
 		}
 	}
-	
+
 	echo json_encode($calls);
 }
 else if($_request['method'] == 'newVoicemailCounts')
@@ -129,7 +130,7 @@ else if($_request['method'] == 'getVoicemails')
 {
 	if(!isset($_request['name'])) die('Bitte übergeben Sie den Parameter "name".');
 	$voicemails = $_mysql->query('SELECT * FROM Voicemails WHERE Name="'.$_request['name'].'" AND Context="'.$_config->VoicemailContext.'" AND Category="INBOX" ORDER BY ID DESC');
-	
+
 	//Check for updated caller name in phonebook
 	foreach($voicemails as $index => $voicemail)
 	{

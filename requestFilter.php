@@ -13,7 +13,7 @@ foreach($_GET as $entry => $value) // Kompatibilität zu alter Version
 	$_request[$entry] = $line[0];
 	for($i = 1; $i < count($line); $i++) {
 		$temp = explode("=", $line[$i]);
-		$_request[htmlspecialchars(trim($temp[0]))] = htmlspecialchars(trim($temp[1]));
+		$_request[htmlspecialchars(trim($temp[0]))] = htmlspecialchars(count($temp) > 1 ? trim($temp[1]) : "");
 	}
 }
 
